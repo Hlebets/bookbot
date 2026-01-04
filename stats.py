@@ -4,13 +4,22 @@ def get_num_words(file_contents):
     print(f"Found {num_words} total words")
 
 
+def sort_on(dict_item):
+    return dict_item["num"]
+
+
 def get_num_characters(file_contents):
     dict_characters = {}
-    lowerfile_contents = file_contents.lower()
-    for char in lowerfile_contents:
-        if char in dict_characters:
-            dict_characters[char] += 1
-        else:
-            dict_characters[char] = 1
-    for char, count in dict_characters.items():
-        print(f"{repr(char)}: {count}")
+    for char in file_contents.lower():
+        dict_characters[char] = (
+            dict_characters[char] + 1 if char in dict_characters else 1
+        )
+    return dict_characters
+
+
+def sort_characters_by_count(dict_characters):
+    sorted_list = []
+    for char in dict_characters:
+        sorted_list.append({"char": char, "num": dict_characters[char]})
+    sorted_list.sort(reverse=True, key=sort_on)
+    return sorted_list
